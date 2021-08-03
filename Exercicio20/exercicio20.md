@@ -54,9 +54,9 @@
 > ```
 > Button_int_conf:
 > //        MOV R2, #00000001b ; bit do PJ0
->         MOV R2, #00000011b ; bit do PJ0 e PJ1
->         LDR R1, =GPIO_PORTJ_BASE
->  // o restante foca inalterado.
+>      MOV R2, #00000011b ; bit do PJ0 e PJ1
+>      LDR R1, =GPIO_PORTJ_BASE
+> // o restante foca inalterado.
 > ```
 >
 > 
@@ -71,19 +71,20 @@
 > ; GPIOJ_Handler: Interrupt Service Routine for port GPIO J
 > ; Utiliza R11 para se comunicar com o programa principal
 > GPIOJ_Handler:
+> 
+>      LDR R0, [R1, #GPIO_RIS] ; lê o status da interrupção
+> 
+>      TST R0, #1
+>      ITE EQ
+>      ADDEQ R11, R11, #1 ; tratamento
+>      SUBNE R11, R11, #1
+> 
 > //        MOV R0, #00000001b ; ACK do bit 0
->         MOV R0, #00000011b ; ACK do bit 0
->         LDR R1, =GPIO_PORTJ_BASE
->         STR R0, [R1, #GPIO_ICR]
+>      MOV R0, #00000011b ; ACK do bit 0
+>      LDR R1, =GPIO_PORTJ_BASE
+>      STR R0, [R1, #GPIO_ICR]
 > 
->         LDR R0, [R1, #GPIO_RIS] ; lê o status da interrupção
-> 
->         TST R0, #1
->         ITE EQ
->         ADDEQ R11, R11, #1 ; tratamento
->         SUBNE R11, R11, #1
-> 
->         BX LR ; retorno da ISR
+>      BX LR ; retorno da ISR
 > 
 > ```
 >
