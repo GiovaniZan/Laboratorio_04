@@ -20,6 +20,10 @@
    de prioridade que referem se à IRQ da porta
    GPIO J
 
+
+
+Respostas:
+
 1- A porta GPIOJ corresponde ao IRQ 67
 
 2 - Registrador de controle: Register 6: Interrupt 64-95 Set Enable (EN2), offset 0x108

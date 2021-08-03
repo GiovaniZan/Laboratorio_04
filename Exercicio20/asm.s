@@ -59,10 +59,6 @@ GPIO_DEN                EQU     0x051C
 ; GPIOJ_Handler: Interrupt Service Routine for port GPIO J
 ; Utiliza R11 para se comunicar com o programa principal
 GPIOJ_Handler:
-//        MOV R0, #00000001b ; ACK do bit 0
-        MOV R0, #00000011b ; ACK do bit 0
-        LDR R1, =GPIO_PORTJ_BASE
-        STR R0, [R1, #GPIO_ICR]
 
         LDR R0, [R1, #GPIO_RIS] ; lê o status da interrupção
 // registrador GPIORIS - página 773 do datasheet TM4C129ENCPDT
@@ -70,6 +66,12 @@ GPIOJ_Handler:
         ITE EQ
         ADDEQ R11, R11, #1 ; tratamento
         SUBNE R11, R11, #1
+
+//        MOV R0, #00000001b ; ACK do bit 0
+        MOV R0, #00000011b ; ACK do bit 0
+        LDR R1, =GPIO_PORTJ_BASE
+        STR R0, [R1, #GPIO_ICR]
+
 
         BX LR ; retorno da ISR
 
